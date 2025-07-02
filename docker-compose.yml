@@ -1,0 +1,77 @@
+services:
+    app:
+        build:
+            context: .
+        container_name: skorleep_app
+        ports:
+            - "9000:9000"
+        volumes:
+            - .:/var/www
+        depends_on:
+            - mysql
+        networks:
+            - skorleep_net
+
+    reverb:
+        build:
+            context: .
+        container_name: skorleep_reverb
+        working_dir: /var/www
+        command: sh -c "php artisan reverb:start --host=0.0.0.0 --port=6001"
+        volumes:
+            - .:/var/www
+        ports:
+            - "6001:6001"
+        depends_on:
+            - app
+        networks:
+            - skorleep_net
+
+    nginx:
+        image: nginx:alpine
+        container_name: skorleep_nginx
+        ports:
+            - "8080:80"
+        volumes:
+            - .:/var/www
+            - ./nginx/conf.d:/etc/nginx/conf.d
+        depends_on:
+            - app
+            - reverb
+        networks:
+            - skorleep_net
+
+    mysql:
+        image: mysql:8.0
+        container_name: skorleep_db
+        restart: always
+        environment:
+            MYSQL_DATABASE: skorleep
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_USER: laravel
+            MYSQL_PASSWORD: secret
+        ports:
+            - "3306:3306"
+        volumes:
+            - mysql_data:/var/lib/mysql
+        networks:
+            - skorleep_net
+
+    vite:
+        image: node:22-alpine
+        container_name: skorleep_vite
+        working_dir: /var/www
+        command: sh -c "npm install && npm run dev"
+        volumes:
+            - .:/var/www
+        ports:
+            - "5173:5173"
+        networks:
+            - skorleep_net
+
+volumes:
+    mysql_data:
+
+networks:
+    skorleep_net:
+        driver: bridge
