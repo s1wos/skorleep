@@ -6,7 +6,4 @@
 
 </script>
 <style scoped>
-  .container {
-    max-width: 700px;
-  }
 </style>
