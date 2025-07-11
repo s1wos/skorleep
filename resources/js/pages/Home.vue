@@ -83,8 +83,8 @@
                         :key="file.url!"
                         class="w-full flex items-center text-sm bg-[#F9FAFE] rounded-b-lg p-1"
                         >   
-                            <FlFilledDocument class="w-8 h-8 text-blue-600"/>
-                            <a v-if="file.url" :href="file.url" :download="file.filename ?? 'attachment'" target="_blank" class="text-blue-600 underline mx-3 text-lg">
+                            <FlDocumentText class="w-8 h-8 text-indigo-400"/>
+                            <a v-if="file.url" :href="file.url" :download="file.filename ?? 'attachment'" target="_blank" class="text-indigo-400 underline mx-3 text-lg">
                                 {{ file.filename ?? 'Unknown file' }}
                             </a>
                             <span v-if="file.size !== null" class="text-gray-400 text-lg ms-auto"> {{ (file.size / 1024).toFixed(1) }} KB</span>
@@ -110,7 +110,7 @@ import {onMounted, ref} from 'vue'
 import { CgSpinner } from '@kalimahapps/vue-icons';
 import { CaArrowsHorizontal } from '@kalimahapps/vue-icons';
 import { HeFilledUiUserProfile } from '@kalimahapps/vue-icons';
-import { FlFilledDocument } from '@kalimahapps/vue-icons';
+import { FlDocumentText } from '@kalimahapps/vue-icons';
 import { motion, cubicBezier } from 'motion-v'
 
 const transition = { duration: 1, ease: cubicBezier(0.25, 0.1, 0.25, 1) }
