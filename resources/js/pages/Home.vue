@@ -13,7 +13,14 @@
                         Копировать
                     </button>
                     <button @click="emailStore.recreateEmail" type="button" class="flex items-center gap-2 cursor-pointer font-medium text-2xl px-5 py-2.5 me-2 mb-2 bg-transparent">
-                        <CgSpinner class="w-12 h-12 text-indigo-400 animate-spin" :disabled="emailStore.loading"/>
+                        <CgSpinner
+                        v-if="emailStore.loading"
+                        class="w-12 h-12 text-indigo-400 animate-spin"
+                        />
+                        <CgSpinner
+                        v-else
+                        class="w-12 h-12 text-indigo-400"
+                        />
                     Обновить</button>
                 </div>
             </div>
@@ -32,8 +39,12 @@
 
                 <!-- Рендер листа сообщений, если они есть -->
                 <ul>
-                    <li v-for="msg in emailStore.messages" :key="msg.subject + msg.received_at" @click="openMessage(msg)" 
-                    class="w-full h-32 flex gap-2 items-start bg-transparent hover:bg-white border-b border-gray-200 p-4 rounded-lg cursor-pointer">
+                    <li
+                        v-for="msg in emailStore.messages"
+                    :key="msg.subject + msg.received_at"
+                    @click="openMessage(msg)"
+                        class="w-full h-32 flex gap-2 items-start bg-transparent hover:bg-white border-b border-gray-200 p-4 rounded-lg cursor-pointer"
+                    >
                         <HeFilledUiUserProfile class="w-20 h-20 text-indigo-400"/>
                         <div>
                             <div class="text-xl font-medium">{{ msg.subject }}</div>
@@ -78,7 +89,7 @@
                             </a>
                             <span v-if="file.size !== null" class="text-gray-400 text-lg ms-auto"> {{ (file.size / 1024).toFixed(1) }} KB</span>
                         </li>
-                        <div v-if="selectedMessage.attachments.length === 0">
+                        <div v-if="selectedMessage && selectedMessage.attachments?.length === 0">
                             В сообщение нет вложений
                         </div>
                     </ul>
@@ -119,14 +130,19 @@ const variants = {
 
 const emailStore = useEmailStore()
 const selectedMessage = ref<EmailMessage | null>(null)
-const useMock = import.meta.env.VITE_USE_MOCK === 'true'
+const useMock = import.meta.env.VITE_USE_MOCK === 'false'
 
 onMounted(() => {
     if (useMock) {
-    emailStore.loadMockMessages()
+        emailStore.loadMockMessages()
     } else {
-        emailStore.fetchCreateEmail()
-        emailStore.fetchMessages()
+        const savedEmail = localStorage.getItem('tempEmail')
+        if (savedEmail) {
+            emailStore.email = savedEmail
+            emailStore.fetchMessages
+        } else {
+            emailStore.recreateEmail()
+        }
     }
 })
 
@@ -134,7 +150,7 @@ function handleCopy() {
     navigator.clipboard.writeText(emailStore.email)
 }
 
-function openMessage(msg: any) {
+function openMessage(msg: EmailMessage) {
     selectedMessage.value = msg;
 }
 </script>

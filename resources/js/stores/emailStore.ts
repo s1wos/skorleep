@@ -1,11 +1,12 @@
 import axios from "axios";
 import { defineStore } from "pinia";
 
-
+axios.defaults.withCredentials = true
+axios.defaults.baseURL = '/api'
 
 export const useEmailStore = defineStore('email', {
     state: () => ({
-        email: 'example@example.com',
+        email: 'example@mmail.com',
         messages: [] as any[],
         loading: false,
     }),
@@ -25,7 +26,10 @@ export const useEmailStore = defineStore('email', {
             this.loading = true
             try{
                 const res = await axios.post('/emails')
-                this.email = res.data.email
+                this.email = res.data.data.email,
+                this.messages = []
+                localStorage.setItem('tempEmail', this.email)
+                await this.fetchMessages()
             } finally {
                 this.loading = false
             }
