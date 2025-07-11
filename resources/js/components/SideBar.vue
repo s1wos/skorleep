@@ -1,23 +1,74 @@
 <template>
     <div class="h-full w-full bg-indigo-400 border-r border-gray-200 flex flex-col p-2 overflow-y-auto text-center">
-      <div class="mb-8 pt-8">
-        <h1 class="text-4xl font-light text-white capitalize">MM</h1>
+      <div class="mb-8 pt-10">
+        <h1 class="text-5xl font-light text-white capitalize">MM</h1>
       </div>
 
-      <nav class="flex flex-col gap-2 flex-1">
-        <router-link to='/'></router-link>
+      <nav class="flex flex-col gap-20 flex-1 items-center py-10 relative">
+        <ul class="flex flex-col gap-20 items-center relative w-full pr-2">
+          <router-link
+            v-for="tab in tabs"
+            :key="tab.label"
+            :to="tab.path"
+            class="w-full"
+          >
+            <motion.div
+                v-if="selectedTab.label === tab.label"
+                layout-id="underline"
+                class="absolute -left-13 h-16 w-1 bg-indigo-700 rounded-full"
+            />
+            <motion.li
+              tag="li"
+              class="relative flex justify-center items-center w-full rounded-r-lg cursor-pointer"
+              :initial="false"
+              :animate="{
+                scale: selectedTab.label === tab.label ? 1.1 : 1,
+                backgroundColor: selectedTab.label === tab.label ? '#ffffff' : 'transparent'
+              }"
+              :transition="{
+                scale: { duration: 0.2, ease: 'easeOut' },
+                backgroundColor: { duration: 0.2, ease: 'easeInOut' }
+              }"
+            >
+              <component
+                :is="tab.icon"
+                :class="[
+                  'w-9 h-16 text-xl transition-colors duration-200',
+                  selectedTab.label === tab.label ? 'text-indigo-400' : 'text-white'
+                ]"
+              />
+            </motion.li>
+          </router-link>
+        </ul>
       </nav>
 
-      <div class="pt-6">
-        <button
-          class="w-full flex items-center justify-start gap-3 text-red-600 "
-        >
-         Выйти
-        </button>
-      </div>
     </div>
 </template>
 
 <script setup lang="ts">
+import { FaRegUser } from '@kalimahapps/vue-icons';
+import { FaRegClone } from '@kalimahapps/vue-icons';
+import { FaRegCircleQuestion } from '@kalimahapps/vue-icons';
+import { ref, watch } from 'vue';
+import { motion } from 'motion-v'
+import { useRoute } from 'vue-router';
 
+const tabs = [
+  {icon: FaRegUser, label: 'Profile', path: '/'},
+  {icon: FaRegClone, label: 'About', path: '/about'},
+  {icon: FaRegCircleQuestion, label: 'Help', path: '/help'}
+]
+
+const selectedTab = ref(tabs[0])
+
+const route = useRoute()
+
+watch(
+  () => route.path,
+  (newPath: any) => {
+    const match = tabs.find(tab => tab.path === newPath)
+    if (match) selectedTab.value = match
+  },
+  { immediate: true }
+)
 </script>
