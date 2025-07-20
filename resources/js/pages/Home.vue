@@ -29,7 +29,7 @@
             <div class="w-full h-140 flex-1">
                 <div class="flex flex-row justify-between mt-4 p-1">
                     <p class="font-medium text-3xl">Входящие</p>
-                    <button class="cursor-pointer"><CaArrowsHorizontal class="w-10 h-10"/></button>
+                    <button @clock="isAscending = !isAscending" class="cursor-pointer"><CaArrowsHorizontal class="w-10 h-10 hover:text-gray-600"/></button>
                 </div>
 
                 <!-- Проверка на имеющиеся сообщения -->
@@ -40,7 +40,7 @@
                 <!-- Рендер листа сообщений, если они есть -->
                 <ul>
                     <li
-                        v-for="msg in emailStore.messages"
+                    v-for="msg in sortedMessages"
                     :key="msg.subject + msg.received_at"
                     @click="openMessage(msg)"
                         class="w-full h-32 flex gap-2 items-start bg-transparent hover:bg-white border-b border-gray-200 p-4 rounded-lg cursor-pointer"
@@ -106,12 +106,13 @@
 
 <script setup lang="ts">
 import {useEmailStore} from '../stores/emailStore'
-import {onMounted, ref} from 'vue'
+import {computed, onMounted, ref} from 'vue'
 import { CgSpinner } from '@kalimahapps/vue-icons';
 import { CaArrowsHorizontal } from '@kalimahapps/vue-icons';
 import { HeFilledUiUserProfile } from '@kalimahapps/vue-icons';
 import { FlDocumentText } from '@kalimahapps/vue-icons';
 import { motion, cubicBezier } from 'motion-v'
+import { isAccessor } from 'typescript';
 
 const transition = { duration: 1, ease: cubicBezier(0.25, 0.1, 0.25, 1) }
 
@@ -131,6 +132,7 @@ const variants = {
 const emailStore = useEmailStore()
 const selectedMessage = ref<EmailMessage | null>(null)
 const useMock = import.meta.env.VITE_USE_MOCK === 'false'
+const isAscending = ref(false)
 
 onMounted(() => {
     if (useMock) {
@@ -139,11 +141,19 @@ onMounted(() => {
         const savedEmail = localStorage.getItem('tempEmail')
         if (savedEmail) {
             emailStore.email = savedEmail
-            emailStore.fetchMessages
+            emailStore.fetchMessages()
         } else {
             emailStore.recreateEmail()
         }
     }
+})
+
+const sortedMessages = computed(() => {
+    return[...emailStore.messages].sort((a, b) => {
+        const timeA = new Date(a.received_at).getTime();
+        const timeB = new Date(b.received_at).getTime();
+        return isAscending.value ? timeA - timeB : timeB - timeA;
+    })
 })
 
 function handleCopy() {

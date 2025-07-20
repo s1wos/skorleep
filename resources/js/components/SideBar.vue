@@ -12,32 +12,32 @@
             :to="tab.path"
             class="w-full"
           >
-            <motion.div
-                v-if="selectedTab.label === tab.label"
-                layout-id="underline"
-                class="absolute -left-13 h-16 w-1 bg-indigo-700 rounded-full"
-            />
-            <motion.li
-              tag="li"
-              class="relative flex justify-center items-center w-full rounded-r-lg cursor-pointer"
-              :initial="false"
-              :animate="{
-                scale: selectedTab.label === tab.label ? 1.1 : 1,
-                backgroundColor: selectedTab.label === tab.label ? '#ffffff' : 'transparent'
-              }"
-              :transition="{
-                scale: { duration: 0.2, ease: 'easeOut' },
-                backgroundColor: { duration: 0.2, ease: 'easeInOut' }
-              }"
-            >
-              <component
-                :is="tab.icon"
-                :class="[
-                  'w-9 h-16 text-xl transition-colors duration-200',
-                  selectedTab.label === tab.label ? 'text-indigo-400' : 'text-white'
-                ]"
-              />
-            </motion.li>
+            <AnimatePresence mode="wait">
+              <motion.li
+                tag="li"
+                class="relative flex justify-center items-center w-full rounded-r-lg cursor-pointer"
+                :initial="{x: 10, opacity: 0}"
+                :animate="{
+                  scale: selectedTab.label === tab.label ? 1.1 : 1,
+                  backgroundColor: selectedTab.label === tab.label ? '#ffffff' : 'transparent',
+                  x: 0, opacity: 1
+                }"
+                :exit="{x: -10, opacity:0}"
+                :transition="{
+                  scale: { duration: 0.1, ease: 'easeOut' },
+                  backgroundColor: { duration: 0.2, ease: 'easeInOut' }
+                }"
+              >
+                <component
+                  :is="tab.icon"
+                  :class="[
+                    'w-9 h-16 text-xl transition-colors duration-200',
+                    selectedTab.label === tab.label ? 'text-indigo-400' : 'text-white'
+                  ]"
+                />
+                
+              </motion.li>
+            </AnimatePresence>
           </router-link>
         </ul>
       </nav>
