@@ -33,7 +33,7 @@
                 </div>
 
                 <!-- Проверка на имеющиеся сообщения -->
-                <div v-if="emailStore.messages.length === 0" class="h-full flex text-xl text-gray-500 justify-center items-center">
+                <div v-if="Array.isArray(emailStore.messages) && emailStore.messages.length === 0" class="h-full flex text-xl text-gray-500 justify-center items-center">
                 У вас нет сообщений
                 </div>
 
@@ -149,11 +149,12 @@ onMounted(() => {
 })
 
 const sortedMessages = computed(() => {
-    return[...emailStore.messages].sort((a, b) => {
+    return Array.isArray(emailStore.messages) ? [...emailStore.messages].sort((a, b) => {
         const timeA = new Date(a.received_at).getTime();
         const timeB = new Date(b.received_at).getTime();
         return isAscending.value ? timeA - timeB : timeB - timeA;
-    })
+    }) 
+    : []
 })
 
 function handleCopy() {
