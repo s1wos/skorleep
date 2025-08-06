@@ -1,10 +1,15 @@
 <template>
-    <motion.div :initial="'hidden'" :while-in-view="'visible'" class="container mx-auto py-10">
-        <motion.div :variants="variants" :transition="transition" class="w-full p-4 bg-white rounded-xl">
-            <h1 class="text-3xl px-5 font-semibold flex items-center gap-4"><FaRegClone class="w-8 h-8 text-indigo-400"/>О нас</h1>
-            <div class="text-2xl px-5 py-4 max-w-6xl">Наш сервис позволяет вам моментально получить временный e-mail для одноразового использования. Это удобно для регистрации на сайтах, получения писем и защиты от спама. Все просто, быстро и без лишних данных.</div>
-        </motion.div>
-   </motion.div>
+  <motion.div :initial="'hidden'" :while-in-view="'visible'" class="container mx-auto py-10 px-4 sm:px-6 lg:px-8">
+    <motion.div :variants="variants" :transition="transition" class="w-full p-4 bg-white rounded-xl shadow-md">
+      <h1 class="text-xl sm:text-2xl md:text-3xl px-2 sm:px-4 font-semibold flex items-center gap-3 sm:gap-4">
+        <FaRegClone class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-indigo-400" />
+        О нас
+      </h1>
+      <div class="text-base sm:text-lg md:text-xl lg:text-2xl px-2 sm:px-4 py-4 max-w-5xl">
+        Наш сервис позволяет вам моментально получить временный e-mail для одноразового использования. Это удобно для регистрации на сайтах, получения писем и защиты от спама. Все просто, быстро и без лишних данных.
+      </div>
+    </motion.div>
+  </motion.div>
 </template>
 
 <script setup lang="ts">
