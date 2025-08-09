@@ -1,6 +1,6 @@
 <template>
-    <div class="flex h-screen bg-[#F9FAFE]">
-      <aside class="h-screen w-[160px] shrink-0">
+    <div class="flex h-screen max-sm:flex-col bg-[#F9FAFE]">
+      <aside class="h-screen w-[160px] max-sm:w-screen max-sm:h-[70px] shrink-0">
         <SideBar />
       </aside>
 

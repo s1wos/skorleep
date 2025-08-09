@@ -18,29 +18,43 @@
           readonly
         />
         <div class="flex flex-wrap gap-4 py-6 justify-between">
-          <button
+          <motion.button
             @click="handleCopy"
+            :whileHover="{ scale: [1, 1.04] }"
+            :transition="{ duration: 0.15, ease: 'easeOut' }"
             type="button"
             class="text-white cursor-pointer bg-indigo-400 hover:bg-indigo-500 focus:ring-4 focus:ring-indigo-300
               font-medium rounded-lg text-lg sm:text-2xl px-5 py-2.5 dark:hover:bg-indigo-600 focus:outline-none dark:focus:ring-indigo-800"
           >
             Копировать
-          </button>
-          <button
+          </motion.button>
+          <motion.button
             @click="emailStore.recreateEmail"
             type="button"
-            class="flex items-center gap-2 cursor-pointer font-medium text-lg sm:text-2xl px-5 py-2.5 bg-transparent"
+            class="flex items-center cursor-pointer gap-2 font-medium text-lg sm:text-2xl px-5 py-2.5 bg-transparent"
+            :initial="'rest'"
+            whileHover="hover"
+            :variants="{
+              rest:  { scale: 1 },
+              hover: { scale: 1.04 }
+            }"
+            :transition="{ duration: 0.15, ease: 'easeOut' }"
           >
-            <CgSpinner
-              v-if="emailStore.loading"
-              class="w-8 h-8 sm:w-12 sm:h-12 text-indigo-400 animate-spin"
-            />
-            <CgSpinner
-              v-else
-              class="w-8 h-8 sm:w-12 sm:h-12 text-indigo-400"
-            />
+            <motion.div
+              class="w-8 h-8 cursor-pointer sm:w-12 sm:h-12 text-indigo-400 pointer-events-none"
+              :variants="{
+                rest:  { rotate: 0 },
+                hover: {
+                  rotate: [0, 360],
+                  transition: { duration: 0.8, repeat: Infinity, ease: 'linear' }
+                }
+              }"
+            >
+              <AnOutlinedReload class="w-full h-full" />
+            </motion.div>
+
             Обновить
-          </button>
+          </motion.button>
         </div>
       </div>
 
@@ -154,8 +168,10 @@ import { CgSpinner } from '@kalimahapps/vue-icons';
 import { CaArrowsHorizontal } from '@kalimahapps/vue-icons';
 import { HeFilledUiUserProfile } from '@kalimahapps/vue-icons';
 import { FlDocumentText } from '@kalimahapps/vue-icons';
+import { AnOutlinedReload } from '@kalimahapps/vue-icons';
 import { motion, cubicBezier } from 'motion-v'
-import { isAccessor } from 'typescript';
+
+const isHovering = ref(false)
 
 const transition = { duration: 1, ease: cubicBezier(0.25, 0.1, 0.25, 1) }
 
