@@ -1,10 +1,10 @@
 <template>
-    <div class="h-full w-full bg-indigo-400 border-r border-gray-200 flex flex-col p-2 max-sm:p-0 overflow-y-auto text-center">
-      <div class="mb-8 pt-10 max-sm:mb-2 max-sm:pt-0">
+    <div class="h-full w-full hidden sm:flex bg-indigo-400 border-r border-gray-200 flex-col p-2 overflow-y-auto text-center">
+      <div class="mb-8 pt-10">
         <h1 class="text-5xl font-light text-white capitalize">MM</h1>
       </div>
 
-      <nav class="flex flex-col gap-20 flex-1 items-center py-10 relative max-sm:hidden">
+      <nav class="flex flex-col gap-20 flex-1 items-center py-10 relative">
         <ul class="flex flex-col gap-20 items-center relative w-full pr-2">
           <router-link
             v-for="tab in tabs"
