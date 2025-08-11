@@ -1,5 +1,5 @@
 <template>
-    <div class="h-full w-full flex sm:hidden bg-indigo-400 border-r border-gray-200 flex-col p-2 max-sm:p-0 overflow-y-auto text-center">
+    <div class="h-full w-full flex sm:hidden bg-indigo-400 border-r border-gray-200 flex-col p-2 shadow-md max-sm:p-0 overflow-y-auto text-center">
         <div class="max-sm:mb-2 max-sm:pt-0 z-11">
             <h1 class="text-5xl font-light text-white capitalize">MM</h1>
         </div>
@@ -33,7 +33,7 @@
                 <!-- Menu Toggle -->
                 <motion.button
                 type="button"
-                class="toggle-container"
+                class="toggle-container shadow-md"
                 @click="toggle"
                 :initial="'closed'"
                 :animate="isOpen ? 'open' : 'closed'"
