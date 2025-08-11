@@ -1,5 +1,5 @@
 <template>
-    <div class="h-full w-full flex sm:hidden bg-indigo-400 border-r border-gray-200 flex-col p-2 shadow-md max-sm:p-0 overflow-y-auto text-center">
+    <div class="h-full w-full flex sm:hidden bg-indigo-400 border-r border-gray-200 flex-col p-2 shadow-md max-sm:p-0 overflow-y-hidden text-center">
         <div class="max-sm:mb-2 max-sm:pt-0 z-11">
             <h1 class="text-5xl font-light text-white capitalize">MM</h1>
         </div>
@@ -39,13 +39,13 @@
                 :animate="isOpen ? 'open' : 'closed'"
                 >
                     <motion.svg
-                        width="25"
-                        height="25"
-                        viewBox="0 0 23 23"
-                        stroke="white"
-                        focusable="false"
-                        tabindex="-1"
-                        >
+                      width="25"
+                      height="25"
+                      viewBox="0 0 24 24"
+                      stroke="white"
+                      stroke-linecap="round"
+                      stroke-width="2"
+                    >
                         <motion.path
                             fill="transparent"
                             stroke-width="3"
@@ -190,6 +190,10 @@ const sidebarVariants: MotionProps['variants'] = {
   justify-content: center;
 }
 
+.toggle-container svg {
+  transform: translate(0.5px, 0.5px);
+}
+
 .list {
   list-style: none;
   padding: 25px;
@@ -237,4 +241,5 @@ const sidebarVariants: MotionProps['variants'] = {
 .toggle-container::-moz-focus-inner { border: 0; }
 
 .toggle-container svg { pointer-events: none; }
+
 </style>
