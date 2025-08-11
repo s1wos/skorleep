@@ -1,11 +1,11 @@
 <template>
     <div class="flex h-screen max-sm:flex-col bg-[#F9FAFE]">
-      <aside class="h-screen w-[160px] max-sm:w-screen max-sm:h-[75px] shrink-0">
+      <aside class="h-screen w-[160px] max-sm:w-screen max-sm:h-[75px] shrink-0 z-10">
         <SideBar />
         <MobileSideBar/>
       </aside>
 
-      <main class="flex-1 overflow-x-hidden overflow-y-auto w-screen justify-items-center">
+      <main class="flex-1 overflow-x-hidden overflow-y-auto w-screen justify-items-center z-1">
         <router-view />
       </main>
     </div>
