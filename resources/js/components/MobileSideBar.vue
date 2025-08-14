@@ -33,7 +33,7 @@
                 <!-- Menu Toggle -->
                 <motion.button
                 type="button"
-                class="toggle-container shadow-md"
+                class="toggle-container"
                 @click="toggle"
                 :initial="'closed'"
                 :animate="isOpen ? 'open' : 'closed'"

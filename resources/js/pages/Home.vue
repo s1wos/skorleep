@@ -2,7 +2,7 @@
   <motion.div
     :initial="'hidden'"
     :while-in-view="'visible'"
-    class="container w-full h-full py-10 px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row bg-[#F9FAFE] gap-6 lg:gap-8 justify-center overflow-hidden"
+    class="container w-full h-full py-4 px-4 sm:px-2 sm:py-10 lg:px-8  flex flex-col lg:flex-row bg-[#F9FAFE] gap-6 lg:gap-8 justify-center overflow-hidden"
   >
     <!-- Left panel: Email controls -->
     <motion.div
